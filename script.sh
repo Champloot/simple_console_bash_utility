@@ -12,7 +12,7 @@ function list_users {
 #    $1 — это имя пользователя.
 #    $6 — это домашний каталог пользователя.
 
-fuction list_processes {
+function list_processes {
     echo "..."
     ps -eo pid,comm --sort=pid
 }
@@ -28,6 +28,7 @@ for arg in "$@"; do
             list_users
             ;;
         -p|--processes)
+            list_processes
             ;;
         *)
             echo "No arg"
