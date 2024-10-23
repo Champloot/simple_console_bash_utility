@@ -23,6 +23,17 @@ function list_processes {
 #    comm: имя команды или процесса.
 #    --sort=pid: сортирует вывод по идентификатору процесса (PID) в порядке возрастания.
 
+# функция для вывода подсказок (справки) о командах
+function show_help {
+    echo "Uasge: $0 [options]"
+    echo "Options:"
+    echo "  -u, --users           List users and their home directories"
+    echo "  -p, --processes       List running processes"
+    echo "  -h, --help            Show this help message"
+    echo "  -l PATH, --log PATH   Redirect output to a file at PATH"
+    echo "  -e PATH, --errors PATH Redirect error output to a file at PATH"
+}
+
 if [ "$#" -eq 0 ]; then
     echo "Usage: $0 [-u|--users] [-p|--processes]"
     exit 1
@@ -31,17 +42,61 @@ fi
 #   "$#" — это специальная переменная в Bash, которая содержит количество аргументов, переданных скрипту.
 #   Если аргументы не были переданы, скрипт завершает свою работу с кодом выхода 1, что означает, что завершение произошло из-за ошибки или неправильного использования.
 
-for arg in "$@"; do
-    case $arg in
-        -u|--users)
-            list_users
+# getopts анализирует (парсит) опции и аргументы команд, которые были переданы
+# двоеточия типа делят. чтобы не только 'L', а например 'OL'. В обычном случае он будет их по отдельности смотреть
+while getopts ":uphl:e:-:" opt; do
+    case $opt in
+        u)
+            action="users"
             ;;
-        -p|--processes)
-            list_processes
+        p)
+            action="processes"
             ;;
-        *)
-            echo "No such args"
+        h)
+            show_help
+            exit 0
+            ;;
+        # я крч в инете так нашел. наверное можно было как-то иначе, но вроде работает и ладно.
+        -)
+            case "${$OPTARG}" in
+            users)
+                action="users"
+                ;;
+            processes)
+                action="processes"
+                ;;
+            help)
+                show_help
+                exit 0
+                ;;
+             *)
+                echo "Error: --${OPTARG}" >&2
+                exit 1
+                ;;
+            esac
+            ;;
+        \?)
+            echo "Error: -$OPTARG" >&2
+            exit 1
+            ;;
+        :)
+            echo "////"
             exit 1
             ;;
     esac
 done
+
+# типа после присвоения 'action' какого-то параметра, можно что-то делать
+case $action in
+    users)
+        list_users
+        ;;
+    processes)
+        list_processes
+        ;;
+    *)
+    echo "Error" >&2
+    show_help
+    exit 1
+    ;;
+esac
