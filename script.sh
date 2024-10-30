@@ -42,6 +42,9 @@ fi
 #   "$#" — это специальная переменная в Bash, которая содержит количество аргументов, переданных скрипту.
 #   Если аргументы не были переданы, скрипт завершает свою работу с кодом выхода 1, что означает, что завершение произошло из-за ошибки или неправильного использования.
 
+log_path=""
+error_path=""
+
 # getopts анализирует (парсит) опции и аргументы команд, которые были переданы
 # двоеточия типа делят. чтобы не только 'L', а например 'OL'. В обычном случае он будет их по отдельности смотреть
 while getopts ":uphl:e:-:" opt; do
@@ -56,6 +59,12 @@ while getopts ":uphl:e:-:" opt; do
             show_help
             exit 0
             ;;
+        l)
+            log_path="$OPTARG"
+            ;;
+        e)
+            error_path="$OPTARG"
+            ;;
         # я крч в инете так нашел. наверное можно было как-то иначе, но вроде работает и ладно.
         -)
             case "${$OPTARG}" in
@@ -69,22 +78,46 @@ while getopts ":uphl:e:-:" opt; do
                 show_help
                 exit 0
                 ;;
+            log)
+                log_path="${!OPTIND}"; OPTIND=$((OPTIND + 1))
+                ;;
+            errors)
+                error_path="${!OPTIND}"; OPTIND=$((OPTIND + 1))
+                ;;
              *)
-                echo "Error: --${OPTARG}" >&2
+                echo "Invalid option: --${OPTARG}" >&2
                 exit 1
                 ;;
             esac
             ;;
         \?)
-            echo "Error: -$OPTARG" >&2
+            echo "Invalid opion: -$OPTARG" >&2
             exit 1
             ;;
         :)
-            echo "////"
+            echo "Option -$OPTARG requirs an argument." >&2
             exit 1
             ;;
     esac
 done
+
+# Доступность путьей
+if [[ -n $log_path ]]; then
+    if ! touch "$log_path" &> /dev/null; then
+        echo "Can`t write to log file: $log_path" >&2
+        exit 1
+    fi
+    exec > "$log_path"
+fi
+
+if [[ -n $error_path ]]; then
+    if ! touch "$error_path" &> /dev/null; then
+        echo "Can`t write to log file: $error_path" >&2
+        exit 1
+    fi
+    exec 2> "$error_path"
+fi
+
 
 # типа после присвоения 'action' какого-то параметра, можно что-то делать
 case $action in
@@ -95,7 +128,7 @@ case $action in
         list_processes
         ;;
     *)
-    echo "Error" >&2
+    echo "Error." >&2
     show_help
     exit 1
     ;;
