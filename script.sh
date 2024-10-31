@@ -34,14 +34,6 @@ function show_help {
     echo "  -e PATH, --errors PATH Redirect error output to a file at PATH"
 }
 
-if [ "$#" -eq 0 ]; then
-    echo "Usage: $0 [-u|--users] [-p|--processes]"
-    exit 1
-fi 
-
-#   "$#" — это специальная переменная в Bash, которая содержит количество аргументов, переданных скрипту.
-#   Если аргументы не были переданы, скрипт завершает свою работу с кодом выхода 1, что означает, что завершение произошло из-за ошибки или неправильного использования.
-
 log_path=""
 error_path=""
 
@@ -101,7 +93,7 @@ while getopts ":uphl:e:-:" opt; do
     esac
 done
 
-# Доступность путьей
+# Доступность путей
 if [[ -n $log_path ]]; then
     if ! touch "$log_path" &> /dev/null; then
         echo "Can`t write to log file: $log_path" >&2
@@ -128,8 +120,8 @@ case $action in
         list_processes
         ;;
     *)
-    echo "Error." >&2
-    show_help
-    exit 1
-    ;;
+        echo "Error." >&2
+        show_help
+        exit 1
+        ;;
 esac
