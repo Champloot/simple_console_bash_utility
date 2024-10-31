@@ -79,10 +79,10 @@ while getopts ":uphl:e:-:" opt; do
                 exit 0
                 ;;
             log)
-                log_path="${!OPTIND}"; OPTIND=$((OPTIND + 1))
+                log_path="${!OPTIND}"; OPTIND=$(( OPTIND + 1 ))
                 ;;
             errors)
-                error_path="${!OPTIND}"; OPTIND=$((OPTIND + 1))
+                error_path="${!OPTIND}"; OPTIND=$(( OPTIND + 1 ))
                 ;;
              *)
                 echo "Invalid option: --${OPTARG}" >&2
