@@ -27,10 +27,10 @@ function list_processes {
 function show_help {
     echo "Uasge: $0 [options]"
     echo "Options:"
-    echo "  -u, --users           List users and their home directories"
-    echo "  -p, --processes       List running processes"
-    echo "  -h, --help            Show this help message"
-    echo "  -l PATH, --log PATH   Redirect output to a file at PATH"
+    echo "  -u, --users            List users and their home directories"
+    echo "  -p, --processes        List running processes"
+    echo "  -h, --help             Show this help message"
+    echo "  -l PATH, --log PATH    Redirect output to a file at PATH"
     echo "  -e PATH, --errors PATH Redirect error output to a file at PATH"
 }
 
