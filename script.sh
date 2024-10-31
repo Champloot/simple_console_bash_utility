@@ -96,7 +96,7 @@ done
 # Доступность путей
 if [[ -n $log_path ]]; then
     if ! touch "$log_path" &> /dev/null; then
-        echo "Can`t write to log file: $log_path" >&2
+        echo "Can not write to log file: $log_path" >&2
         exit 1
     fi
     exec > "$log_path"
@@ -104,7 +104,7 @@ fi
 
 if [[ -n $error_path ]]; then
     if ! touch "$error_path" &> /dev/null; then
-        echo "Can`t write to log file: $error_path" >&2
+        echo "Can not write to log file: $error_path" >&2
         exit 1
     fi
     exec 2> "$error_path"
