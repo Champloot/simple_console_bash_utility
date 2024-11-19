@@ -8,6 +8,6 @@ A BASH console utility that processes command line arguments and performs some a
 5. For the -e PATH and –errors PATH arguments, replaces error output from the stderr stream to a file at the specified PATH path.
 
 Notes:
-1. Command line arguments must be processed using the getopt or getopts mechanisms.
+1. Command line arguments must be processed using the "getopt" or "getopts" mechanisms.
 2. Each type of action must be processed in a separate function.
-3. The program must check access to the path and output appropriate error messages.  The program must filter or process the outputs in stderr of the commands used.
+3. The program must check access to the path and output appropriate error messages. The program must filter or process the outputs in stderr of the commands used.
