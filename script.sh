@@ -60,7 +60,7 @@ while getopts ":uphl:e:-:" opt; do
             ;;
         # я крч в инете так нашел. наверное можно было как-то иначе, но вроде работает и ладно.
         -)
-            case "${$OPTARG}" in
+            case "${OPTARG}" in
             users)
                 action="users"
                 ;;
