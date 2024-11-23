@@ -131,3 +131,6 @@ case $action in
         exit 1
         ;;
 esac
+
+# Это пример работы для -e. Эта команда вызывает ошибку, и она отправиться в error.log
+# ls noneexistent_file
