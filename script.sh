@@ -53,11 +53,9 @@ while getopts ":uphl:e:-:" opt; do
             exit 0
             ;;
         l)
-            action="log"
             log_path="$OPTARG"
             ;;
         e)
-            action="erros"
             error_path="$OPTARG"
             ;;
         # я крч в инете так нашел. наверное можно было как-то иначе, но вроде работает и ладно.
@@ -74,11 +72,9 @@ while getopts ":uphl:e:-:" opt; do
                 exit 0
                 ;;
             log)
-                action="log"
                 log_path="${!OPTIND}"; OPTIND=$(( OPTIND + 1 ))
                 ;;
             errors)
-                action="erros"
                 error_path="${!OPTIND}"; OPTIND=$(( OPTIND + 1 ))
                 ;;
              *)
@@ -128,10 +124,6 @@ case $action in
         ;;
     processes)
         list_processes
-        ;;
-    log)
-        ;;
-    errors)
         ;;
     *)
         echo "Error." >&2
