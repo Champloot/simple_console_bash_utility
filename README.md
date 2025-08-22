@@ -1,4 +1,4 @@
-# Console_bash_utility_1
+# simple_console_bash_utility
 A BASH console utility that processes command line arguments and performs some actions.
 
 1. For the -u and --users arguments, outputs a list of users and their home directories to the screen, sorted alphabetically;
